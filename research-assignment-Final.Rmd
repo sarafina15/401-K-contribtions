@@ -1,0 +1,106 @@
+---
+title: "Research project for Data Science using R"
+author: "Trisha Winquist"
+date: "2023-05-09"
+output:
+  pdf_document: default
+ 
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+#Introduction/Topic
+#A- Topic/problem to be solved using Data Science: 401K Contributions - to see what correlations is with the different matching contributions and how the age groups or gender might be affected. After the July 1 2016 did the enhanced match produce more participation and if so by what group/gender. Does the years of service contribute to the overall contributions? This data would be useful for a bank that oversees a 401K program to help identify gaps on why people are not fully funded aand to maximize the banks potential growth with some target training. This is a data science problem because I want to find out the correlation of gender to how they contribute to the 401K program. 
+#B- 
+#1- What is the average participation rate by age? There are 4 years of data and ultimately would like to find out comparison per year. 
+#2-What is the overall average participation rate breaking it down into age gorups.
+#3-What is the Average contribution rate by age 
+#4-What is the overall percentage of employees receiving full match
+#5-What is the overall contribution rate by gender
+
+#C- Explanation on how to solve the problem statement- I plan to use various different topics that we have learned about in the course. Correlation is the biggest and linear models to help with averages. 
+#D- Discuss how your proposed approach will address this problem- I think that using averages and correlations will help identify any gaps in the training. There are 9 variables in this data set and there is not alot of cleaning up that needs to happen . 
+#E- I have 4 data sets of different years of contributing to the 401k and plan to correlate the carious years with the outcome. 
+#The data was obtained from a bank that does 401 K distributions and trainings. The Bank provided the data and took out all confidential data. The data has 9 variables and is cleaned up due to the confidential of the business.
+#F-I will be using dplyr (Grammer of data manipulation), ggplot2(to create nice visualizations), readxl (to input the data from an excel file), purr (functional programming tools), QuantPsyc( Quantitative psychology tools), tidyverse (help clean up data), tibble (simple data frames), there maybe more packages
+#G- Plots- I will use histograms, scatterplots and bar charts to get some good visualizations. 
+#H- I think I have learned alot to get a good start on this paper. 
+
+#Final Project Step 2 
+#1 Data importing and cleaning steps are explained in the text and follow a logical process.  Outline your data preparation and cleansing steps
+#Looking at the raw data I will need to get rid of data from team members that were terminated 
+```{r echo=TRUE, include=TRUE}
+library(readxl)
+library(latexpdf)
+library(ggplot2)
+library(dplyr)
+
+
+## Set the working directory to the root of your DSC 520 directory
+setwd("C:/Users/Winquistt/OneDrive - Tyson Online/Desktop/Data Science/Statistics for data science")
+getwd()
+
+## Load the `401 K data to the excel read` to
+
+banking_df <- read_excel("Final project/401K-Contributions.xlsx", sheet="2022", skip = 0)
+summary(banking_df)
+str(banking_df)
+nrow(banking_df)
+ncol(banking_df)
+#create a box plot to show contribution rate by age and gender 
+
+ggplot(banking_df, aes(x=Age, y= Gender)) + geom_point() + geom_boxplot() + ggtitle("Age VS. Gender")
+#create a geom_bar plot for the number of records for each Gender 
+ggplot(banking_df, aes(Gender)) + geom_bar()
+
+
+ggplot(banking_df, aes(x=Age, y=Deferral, col=Gender)) + geom_point() + ggtitle("Age vs. Defferral") + xlab("Age") + ylab("Deferral")
+
+head(banking_df)
+tail(banking_df)
+Age_df <- mean(banking_df$Age)
+Age_df
+YearsOfService_df <- mean(banking_df$`Years of Service`)
+YearsOfService_df
+
+
+#whats the correlation between Age of a person and the Years of service 
+cor(banking_df$Age, banking_df$`Years of Service`)
+
+
+
+#**Overall, write a coherent narrative that tells a story with the data as you complete this section.**
+
+##As much as data science is playing a pivotal role everywhere, banking also finds it prominent application. 401 k data  is the top ways of saving money for the future. Its very interesting the difference in age group and the Gender that plays a role. The objective of this project is to check the correlation of Age and Gender and the deferral amount.
+##I used a data set from the bank that wants to use data to determine if they should add some more training dopcuments for people who are unsure of their involvement in the retirement funds. 
+
+#**Summarize the problem statement you addressed.**
+
+
+```
+
+##Data importing and cleaning steps are explained in the text and follow a logical process.  Outline your data preparation and cleansing steps.- I did not need to clean any data.I received this data from a local bank that wanted me to answer some questions for them and after printing data from the data frame. I may get rid of a column as the match group is irrelavant. 
+
+##With a clean dataset, show what the final data set looks like. However, do not print off a data frame with 200+ rows; show me the data in the most condensed form possible.- I used the head() function to show the first 6 rows of the data and it showed that my data was all clean. 
+
+#What do you not know how to do right now that you need to learn to import and cleanup your dataset? This question doesnt pertain to my data set. 
+
+#Discuss how you plan to uncover new information in the data that is not self-evident.I want to use the correlation function to correlate age groups and deferral rates. I think I want to know what prediction rates have a toll on the final data sets. 
+
+#What are different ways you could look at this data to answer the questions you want to answer?the function head() enables you to show the first observations of a data frame. Similarly, the function tail() prints out the last observations in your data set. Both head() and tail() print a top line called the 'header', which contains the names of the different variables in your data set.
+
+#Do you plan to slice and dice the data in different ways, create new variables, or join separate data frames to create new summary information? Explain.I wont have to slice my data because there are no duplicate rows. The slice() method returns selected elements in an array, as a new array. The slice() method selects from a given start, up to a (not inclusive) given end. The slice() method does not change the original array.Sometimes, new variables must be created due to something about the student's dataset, such as when some subgroups are too small to be analyzed separately – a problem that can be overcome by creating a new version of the variable that combines several small categories. 
+
+#How could you summarize your data to answer key questions? correlation matrix - histogram- I have been playing with different plots(ggplot) to see what sumarry's I could use .The summarize() function is used in the R program to summarize the data frame into just one value or vector. This summarization is done through grouping observations by using categorical values at first, using the groupby() function. The dplyr package is used to get the summary of the dataset.
+
+#What types of plots and tables will help you to illustrate the findings to your questions? Ensure that all graph plots have axis titles, legend if necessary, scales are appropriate, appropriate geoms used, etc.).The most commonly used graphs in the R language are scattered plots, box plots, line graphs, pie charts, histograms, and bar charts. R graphs support both two dimensional and three-dimensional plots for exploratory data analysis.
+
+#What do you not know how to do right now that you need to learn to answer your questions? I need to review all prior assignments and understand what graphs I need to print 
+
+#Do you plan on incorporating any machine learning techniques to answer your research questions? Explain. yes I plan on using linear regression. By using correlation to summarize the strength and degree of the relationship between two or more numeric variables.I would Use regression when I want to predict, optimize, or explain a number response between the variables (how x influences y). Does Gender influence the contribution rate. 
+#Since there are 4 years with similar data- I may go back to correlate if COVID affetcted the overall contribution to the 401 K. 
+
+
+
+
